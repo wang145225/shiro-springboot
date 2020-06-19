@@ -1,0 +1,27 @@
+server:
+  port: 8887  #\u7AEF\u53E3\u53F7
+  servlet:
+    context-path: /shior  #\u8BBF\u95EE\u9879\u76EE\u524D\u7F00
+spring:
+  application:
+    name: shiordemo #\u670D\u52A1\u540D\u79F0
+  mvc:
+    view:
+      prefix: /
+      suffix: .jsp
+  #数据库链接
+  datasource:
+    url: jdbc:mysql://localhost:3306/test?serverTimezone=UTC
+    username: root
+    password: 1234
+  http:
+    encoding:
+      charset: utf-8  #设置编码格式
+      enabled: true
+      force: true
+mybatis:
+  type-aliases-package: com.baizhi.dao
+  mapper-locations: classpath:mappers/*.xml
+  configuration:
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+    map-underscore-to-camel-case: true
