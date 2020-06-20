@@ -8,6 +8,7 @@ import org.apache.shiro.authc.AuthenticationInfo;
 import org.apache.shiro.authc.AuthenticationToken;
 import org.apache.shiro.authc.SimpleAuthenticationInfo;
 import org.apache.shiro.authz.AuthorizationInfo;
+import org.apache.shiro.authz.SimpleAuthorizationInfo;
 import org.apache.shiro.realm.AuthorizingRealm;
 import org.apache.shiro.subject.PrincipalCollection;
 import org.apache.shiro.util.ByteSource;
@@ -18,7 +19,36 @@ import org.springframework.stereotype.Component;
  */
 public class ComusterRealm extends AuthorizingRealm {
     @Override
-    protected AuthorizationInfo doGetAuthorizationInfo(PrincipalCollection principalCollection) {
+    protected AuthorizationInfo doGetAuthorizationInfo(PrincipalCollection principal) {
+
+        //获取身份信息
+        String primaryPrincipal = (String) principal.getPrimaryPrincipal();
+
+//        //根据主身份获取角色信息和权限
+//        if ("wang".equals(primaryPrincipal)){
+//            SimpleAuthorizationInfo simpleAuthorizationInfo=new SimpleAuthorizationInfo();
+//
+//            //设置用户的角色
+//            simpleAuthorizationInfo.addRole("user");
+//
+//            //用户是否有对资源的访问权限
+//            simpleAuthorizationInfo.addStringPermission("user:*:*");
+//
+//            return  simpleAuthorizationInfo;
+//
+//        }
+        //通过工厂对象获得userservice
+        UserService userService = (UserService) ApplicationContextUtils.getBean("userService");
+        User user = userService.findRolesByUserName(primaryPrincipal);
+        if(user!=null){
+           SimpleAuthorizationInfo simpleAuthorizationInfo=new SimpleAuthorizationInfo();
+            user.getRoles().forEach(role->{
+                simpleAuthorizationInfo.addRole(role.getName());
+            });
+
+            return simpleAuthorizationInfo;
+        }
+
         return null;
     }
 

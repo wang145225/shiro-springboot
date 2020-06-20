@@ -43,4 +43,14 @@ public class UserService {
         user.setUsername(username);
       return  userMapper.selectOne(user);
     }
+
+
+    /**
+     * 根据用户名查询角色
+     * @param username
+     * @return
+     */
+    public User findRolesByUserName(String username) {
+        return userMapper.findByRoleName(username);
+    }
 }

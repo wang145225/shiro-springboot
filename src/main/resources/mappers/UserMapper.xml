@@ -2,5 +2,26 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.baizhi.dao.UserMapper">
 
+    <resultMap id="query_findRole" type="com.baizhi.pojo.User">
+        <id column="id" property="id"></id>
+        <result column="username" property="username"></result>
+        <collection property="roles" ofType="com.baizhi.pojo.Role">
+            <id column="rid" property="id"></id>
+            <result column="name" property="name"></result>
+        </collection>
+    </resultMap>
+    <select id="findByRoleName" parameterType="string" resultMap="query_findRole">
+        SELECT
+            u.id,
+            u.username,
+            r.id rid,
+            r.`name`
+        FROM
+            `user` u
+            LEFT JOIN role_user ur ON u.id = ur.userid
+            LEFT JOIN role r ON r.id = ur.roleid
+        WHERE
+            u.username = #{username}
+    </select>
 
 </mapper>

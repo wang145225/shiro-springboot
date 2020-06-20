@@ -1,5 +1,7 @@
 package com.baizhi.pojo;
 
+import java.util.List;
+
 public class User {
 
     private Integer id;
@@ -9,6 +11,16 @@ public class User {
     private String password;
 
     private String salt;
+
+    private List<Role> roles;
+
+    public List<Role> getRoles() {
+        return roles;
+    }
+
+    public void setRoles(List<Role> roles) {
+        this.roles = roles;
+    }
 
     @Override
     public String toString() {
